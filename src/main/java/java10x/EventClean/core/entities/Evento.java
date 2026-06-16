@@ -12,5 +12,6 @@ public record Evento(Long id,
                      String identificador,
                      String localEvento,
                      String organizador,
+                     Integer capacidade,
                      TipoEvento tipoEvento) {
 }
