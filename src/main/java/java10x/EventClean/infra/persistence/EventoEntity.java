@@ -21,11 +21,12 @@ public class EventoEntity {
 
     private String nome;
     private String descricao;
-    private LocalDateTime inicio;
-    private LocalDateTime fim;
+    private LocalDateTime dataInicio;
+    private LocalDateTime dataFim;
     private String identificador;
-    private String local;
+    private String localEvento;
     private String organizador;
+    private Integer capacidade;
 
     @Enumerated(EnumType.STRING)
     private TipoEvento tipoEvento;

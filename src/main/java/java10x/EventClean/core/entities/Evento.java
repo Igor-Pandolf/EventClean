@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 public record Evento(Long id,
                      String nome,
                      String descricao,
-                     LocalDateTime inicio,
-                     LocalDateTime fim,
+                     LocalDateTime dataInicio,
+                     LocalDateTime dataFim,
                      String identificador,
-                     String local,
+                     String localEvento,
                      String organizador,
                      TipoEvento tipoEvento) {
 }
