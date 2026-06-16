@@ -1,11 +1,11 @@
 package java10x.EventClean.core.usecases;
 
-import java10x.EventClean.core.entities.Event;
+import java10x.EventClean.core.entities.Evento;
 
 public class criarEventoCaseImpl implements criarEventoCase {
 
     @Override
-    public Event execute(Event evento) {
+    public Evento execute(Evento evento) {
         return null;
     }
 }
