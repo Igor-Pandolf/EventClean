@@ -1,5 +1,6 @@
 package java10x.EventClean.infra.mapper;
 
+import java10x.EventClean.core.entities.Evento;
 import java10x.EventClean.infra.dtos.EventoDto;
 import java10x.EventClean.infra.persistence.EventoEntity;
 import org.springframework.stereotype.Component;
@@ -7,34 +8,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventoDtoMapper {
 
-    public EventoEntity map(EventoDto eventoDto) {
-        EventoEntity eventoEntity = new EventoEntity();
-        eventoEntity.setId(eventoDto.id());
-        eventoEntity.setNome(eventoDto.nome());
-        eventoEntity.setDescricao(eventoDto.descricao());
-        eventoEntity.setDataInicio(eventoDto.dataInicio());
-        eventoEntity.setDataFim(eventoDto.dataFim());
-        eventoEntity.setIdentificador(eventoDto.identificador());
-        eventoEntity.setLocalEvento(eventoDto.localEvento());
-        eventoEntity.setOrganizador(eventoDto.organizador());
-        eventoEntity.setCapacidade(eventoDto.capacidade());
-        eventoEntity.setTipoEvento(eventoDto.tipoEvento());
-
-        return eventoEntity;
+    public Evento toEntity(EventoDto eventoDto) {
+            return new Evento(
+                    eventoDto.id(),
+                    eventoDto.nome(),
+                    eventoDto.descricao(),
+                    eventoDto.dataInicio(),
+                    eventoDto.dataFim(),
+                    eventoDto.identificador(),
+                    eventoDto.localEvento(),
+                    eventoDto.organizador(),
+                    eventoDto.capacidade(),
+                    eventoDto.tipoEvento()
+            );
     }
 
-    public EventoDto map(EventoEntity eventoEntity) {
+    public EventoDto toDto(Evento evento) {
         return new EventoDto(
-                eventoEntity.getId(),
-                eventoEntity.getNome(),
-                eventoEntity.getDescricao(),
-                eventoEntity.getDataInicio(),
-                eventoEntity.getDataFim(),
-                eventoEntity.getIdentificador(),
-                eventoEntity.getLocalEvento(),
-                eventoEntity.getOrganizador(),
-                eventoEntity.getCapacidade(),
-                eventoEntity.getTipoEvento()
+                evento.id(),
+                evento.nome(),
+                evento.descricao(),
+                evento.dataInicio(),
+                evento.dataFim(),
+                evento.identificador(),
+                evento.localEvento(),
+                evento.organizador(),
+                evento.capacidade(),
+                evento.tipoEvento()
         );
     }
 }
