@@ -4,5 +4,5 @@ import java10x.EventClean.core.entities.Evento;
 
 public interface CriarEventoCase {
 
-    public Evento execute(Evento evento);
+    Evento execute(Evento evento);
 }
