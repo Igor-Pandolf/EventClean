@@ -8,23 +8,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventoEntityMapper {
 
-    public EventoEntity toEntity(EventoDto eventoDto) {
+    public EventoEntity toEntity(Evento evento) {
         return new EventoEntity(
-                eventoDto.id(),
-                eventoDto.nome(),
-                eventoDto.descricao(),
-                eventoDto.dataInicio(),
-                eventoDto.dataFim(),
-                eventoDto.identificador(),
-                eventoDto.localEvento(),
-                eventoDto.organizador(),
-                eventoDto.capacidade(),
-                eventoDto.tipoEvento()
+                evento.id(),
+                evento.nome(),
+                evento.descricao(),
+                evento.dataInicio(),
+                evento.dataFim(),
+                evento.identificador(),
+                evento.localEvento(),
+                evento.organizador(),
+                evento.capacidade(),
+                evento.tipoEvento()
         );
     }
 
-    public EventoDto toDto(EventoEntity evento) {
-        return new EventoDto(
+    public Evento toDomain(EventoEntity evento) {
+        return new Evento(
                 evento.getId(),
                 evento.getNome(),
                 evento.getDescricao(),
