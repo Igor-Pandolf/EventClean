@@ -24,6 +24,10 @@ public class EventoRepositoryGateway implements EventoGateway {
 
     @Override
     public Evento criarEvento(Evento evento) {
+        if (eventoRepository.existsByIdentificador(evento.identificador())) {
+            throw new IllegalArgumentException("Já existe um evento cadastrado com este identificador!");
+        }
+
         EventoEntity eventoEntity = eventoEntityMapper.toEntity(evento);
         EventoEntity novoEvento = eventoRepository.save(eventoEntity);
         return eventoEntityMapper.toDomain(novoEvento);
