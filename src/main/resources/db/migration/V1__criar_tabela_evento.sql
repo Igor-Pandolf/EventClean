@@ -9,5 +9,5 @@ CREATE TABLE Eventos (
     local_evento VARCHAR(255) NOT NULL,
     organizador VARCHAR(255) NOT NULL,
     capacidade INTEGER NOT NULL,
-    tipoEvento VARCHAR(50) NOT NULL
+    tipo_evento VARCHAR(50) NOT NULL
 )
