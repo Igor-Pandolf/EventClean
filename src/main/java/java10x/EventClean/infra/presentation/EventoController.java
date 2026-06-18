@@ -50,8 +50,8 @@ public class EventoController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("filtraridentificador")
-    public ResponseEntity<EventoDto> filtrarIdentificador(@RequestParam String identificador){
+    @GetMapping("identificador/{identificador}")
+    public ResponseEntity<EventoDto> filtrarIdentificador(@PathVariable String identificador){
         Evento evento = filtrarIdentificadorCase.execute(identificador);
         return ResponseEntity.ok(eventoDtoMapper.toDto(evento));
     }

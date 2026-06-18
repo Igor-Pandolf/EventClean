@@ -44,10 +44,6 @@ public class EventoRepositoryGateway implements EventoGateway {
 
     @Override
     public Evento filtrarIdentificador(String identificador) {
-        if (eventoRepository.existsByIdentificadorIgnoreCase(identificador)) {
-            return eventoEntityMapper.toDomain(eventoRepository.findByIdentificadorIgnoreCase(identificador));
-        } else {
-            throw new IllegalArgumentException("Evento com identificador " + identificador + " não existe!");
-        }
+        return eventoEntityMapper.toDomain(eventoRepository.findByIdentificadorIgnoreCase(identificador));
     }
 }
