@@ -51,12 +51,8 @@ public class EventoController {
     }
 
     @GetMapping("filtraridentificador")
-    public ResponseEntity<?> filtrarIdentificador(@RequestParam String identificador){
-        try {
-            Evento evento = filtrarIdentificadorCase.execute(identificador);
-            return ResponseEntity.ok(eventoDtoMapper.toDto(evento));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<EventoDto> filtrarIdentificador(@RequestParam String identificador){
+        Evento evento = filtrarIdentificadorCase.execute(identificador);
+        return ResponseEntity.ok(eventoDtoMapper.toDto(evento));
     }
 }

@@ -27,7 +27,7 @@ public class ControllerExceptionHandler {
         response.put("Error: ", exc.getMessage());
         response.put("Message: ", "Please, insert a valid hashId for your event and try again!");
 
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
 }
