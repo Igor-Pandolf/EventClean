@@ -8,5 +8,6 @@ import java.util.Optional;
 @Repository
 public interface EventoRepository extends JpaRepository<EventoEntity, Long> {
 
-    boolean existsByIdentificador(String identificador);
+    boolean existsByIdentificadorIgnoreCase(String identificador);
+    EventoEntity findByIdentificadorIgnoreCase(String identificador);
 }

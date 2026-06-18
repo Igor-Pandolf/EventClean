@@ -3,6 +3,7 @@ package java10x.EventClean.infra.presentation;
 import java10x.EventClean.core.entities.Evento;
 import java10x.EventClean.core.usecases.BuscarEventoCase;
 import java10x.EventClean.core.usecases.CriarEventoCase;
+import java10x.EventClean.core.usecases.FiltrarIdentificadorCase;
 import java10x.EventClean.infra.dtos.EventoDto;
 import java10x.EventClean.infra.mapper.EventoDtoMapper;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,28 +21,25 @@ public class EventoController {
 
     private final CriarEventoCase criarEventoCase;
     private final BuscarEventoCase buscarEventoCase;
+    private final FiltrarIdentificadorCase filtrarIdentificadorCase;
     private final EventoDtoMapper eventoDtoMapper;
 
-    public EventoController(CriarEventoCase criarEventoCase, BuscarEventoCase buscarEventoCase, EventoDtoMapper eventoDtoMapper) {
+    public EventoController(CriarEventoCase criarEventoCase, BuscarEventoCase buscarEventoCase, FiltrarIdentificadorCase filtrarIdentificadorCase, EventoDtoMapper eventoDtoMapper) {
         this.criarEventoCase = criarEventoCase;
         this.buscarEventoCase = buscarEventoCase;
+        this.filtrarIdentificadorCase = filtrarIdentificadorCase;
         this.eventoDtoMapper = eventoDtoMapper;
     }
 
 
     @PostMapping("criarevento")
     public ResponseEntity<Map<String, Object>> criarEvento(@RequestBody EventoDto eventoDto) {
+        Evento novoEvento = criarEventoCase.execute(eventoDtoMapper.toDomain(eventoDto));
         Map<String, Object> response = new HashMap<>();
-        try {
-            Evento novoEvento = criarEventoCase.execute(eventoDtoMapper.toDomain(eventoDto));
-            response.put("Mensagem:", "Evento cadastrado com sucesso no nosso banco de dados");
-            response.put("Dados do evento:", eventoDtoMapper.toDto(novoEvento));
+        response.put("Mensagem:", "Evento cadastrado com sucesso no nosso banco de dados");
+        response.put("Dados do evento:", eventoDtoMapper.toDto(novoEvento));
 
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            response.put("Erro:", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("buscarevento")
@@ -51,5 +48,15 @@ public class EventoController {
         return eventos.stream()
                 .map(eventoDtoMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("filtraridentificador")
+    public ResponseEntity<?> filtrarIdentificador(@RequestParam String identificador){
+        try {
+            Evento evento = filtrarIdentificadorCase.execute(identificador);
+            return ResponseEntity.ok(eventoDtoMapper.toDto(evento));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

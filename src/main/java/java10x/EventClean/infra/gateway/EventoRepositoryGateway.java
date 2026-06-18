@@ -24,13 +24,14 @@ public class EventoRepositoryGateway implements EventoGateway {
 
     @Override
     public Evento criarEvento(Evento evento) {
-        if (eventoRepository.existsByIdentificador(evento.identificador())) {
-            throw new IllegalArgumentException("Já existe um evento cadastrado com este identificador!");
-        }
-
         EventoEntity eventoEntity = eventoEntityMapper.toEntity(evento);
         EventoEntity novoEvento = eventoRepository.save(eventoEntity);
         return eventoEntityMapper.toDomain(novoEvento);
+    }
+
+    @Override
+    public boolean existePorIdentificador(String identificador) {
+        return eventoRepository.existsByIdentificadorIgnoreCase(identificador);
     }
 
     @Override
@@ -39,5 +40,14 @@ public class EventoRepositoryGateway implements EventoGateway {
         return eventos.stream()
                 .map(eventoEntityMapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Evento filtrarIdentificador(String identificador) {
+        if (eventoRepository.existsByIdentificadorIgnoreCase(identificador)) {
+            return eventoEntityMapper.toDomain(eventoRepository.findByIdentificadorIgnoreCase(identificador));
+        } else {
+            throw new IllegalArgumentException("Evento com identificador " + identificador + " não existe!");
+        }
     }
 }
