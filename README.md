@@ -27,6 +27,11 @@ O **EventClean** permite cadastrar e consultar eventos de diferentes tipos (pale
 - **Lombok**
 - **Maven**
 
+### Testes
+- **JUnit Jupiter 6**
+- **Mockito 5**
+- **Spring Boot WebMvc Test** (`@WebMvcTest` + `MockMvc`)
+
 ## Como Executar
 
 Clone o repositório e acesse a pasta raiz:
@@ -51,6 +56,53 @@ Execute a aplicação através do Maven Wrapper:
 O servidor estará disponível em `http://localhost:8080`
 
 A documentação interativa Swagger UI estará disponível em `http://localhost:8080/swagger-ui/index.html`
+
+## Testes
+
+O projeto conta com **39 testes unitários** distribuídos em **7 classes**, cobrindo todas as camadas da aplicação com isolamento total via mocks (sem necessidade de banco de dados ou servidor em execução).
+
+### Executar todos os testes
+
+```bash
+.\mvnw.cmd test
+```
+
+### Executar uma classe específica
+
+```bash
+.\mvnw.cmd test -Dtest="CriarEventoCaseImplTest"
+```
+
+### Cobertura por camada
+
+| Classe de Teste | Camada | Nº de Testes | O que é testado |
+|---|---|---|---|
+| `CriarEventoCaseImplTest` | Use Case | 4 | Delegação ao gateway, propagação de exceções |
+| `BuscarEventoCaseImplTest` | Use Case | 4 | Retorno de lista, lista vazia, propagação de exceções |
+| `FiltrarIdentificadorCaseImplTest` | Use Case | 4 | Busca por identificador, `EventNotExistsException` |
+| `EventoRepositoryGatewayTest` | Gateway | 12 | Criação, colisão de identificador, busca, exceções de negócio |
+| `EventoDtoMapperTest` | Mapper | 4 | Mapeamento DTO ↔ Domínio, round-trip, valores nulos |
+| `EventoEntityMapperTest` | Mapper | 4 | Mapeamento Entity ↔ Domínio, round-trip, valores nulos |
+| `EventoControllerTest` | Controller | 7 | Status HTTP (200/404/422), JSON response, passagem de parâmetros |
+
+### Estrutura de testes
+
+```
+src/test/java/java10x/EventClean/
+├── core/
+│   └── usecases/
+│       ├── BuscarEventoCaseImplTest.java
+│       ├── CriarEventoCaseImplTest.java
+│       └── FiltrarIdentificadorCaseImplTest.java
+└── infra/
+    ├── gateway/
+    │   └── EventoRepositoryGatewayTest.java
+    ├── mapper/
+    │   ├── EventoDtoMapperTest.java
+    │   └── EventoEntityMapperTest.java
+    └── presentation/
+        └── EventoControllerTest.java
+```
 
 ## Rotas da API
 
